@@ -1,0 +1,15 @@
+fastapi
+sqlalchemy
+asyncpg
+mysqlclient
+pydantic
+python-jose[cryptography]
+passlib[bcrypt]
+alembic
+uvicorn[standard]
+email_validator
+cryptography
+python-dotenv        
+python-multipart     
+gunicorn             
+pydantic-settings    
