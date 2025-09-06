@@ -1,7 +1,7 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from app.routes import auth, item, user
-from database import engine, Base
+from app.routes import auth
+from database import create_tables, engine, Base
 
 app = FastAPI()
 
@@ -16,15 +16,12 @@ app.add_middleware(
 
 # Include routers
 app.include_router(auth.router)
-app.include_router(item.router)
-app.include_router(user.router)
 
 @app.on_event("startup")
-async def startup():
-    # Create the database tables
-    async with engine.begin() as conn:
-        await conn.run_sync(Base.metadata.create_all)
+def startup():
+    create_tables()
+
 
 @app.get("/")
-async def root():
-    return {"message": "Welcome to the FastAPI application!"}
+def root():
+    return {"message": "Welcome to the Leafify Backend"}

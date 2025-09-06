@@ -11,5 +11,5 @@ email_validator
 cryptography
 python-dotenv        
 python-multipart     
-gunicorn             
 pydantic-settings    
+psycopg2-binary
