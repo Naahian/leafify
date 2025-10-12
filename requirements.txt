@@ -1,7 +1,6 @@
 fastapi
 sqlalchemy
 asyncpg
-mysqlclient
 pydantic
 python-jose[cryptography]
 passlib[bcrypt]

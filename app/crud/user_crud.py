@@ -1,7 +1,7 @@
 from sqlalchemy.orm import Session
-from app.models.auth import User
-from app.schemas.auth import UserCreate, UserUpdate
-from passlib import context
+from app.models.user_model import User
+from app.schemas.auth_schema import UserCreate, UserUpdate
+from app.services import get_password_hash
 
 
 def create_user(db: Session, user: UserCreate):
@@ -11,6 +11,11 @@ def create_user(db: Session, user: UserCreate):
     db.commit()
     db.refresh(db_user)
     return db_user
+
+
+def get_all_users(db: Session):
+    return db.query(User).all()
+
 
 def get_user(db: Session, user_id: int):
     return db.query(User).filter(User.id == user_id).first()
@@ -33,11 +38,3 @@ def delete_user(db: Session, user_id: int):
         db.delete(db_user)
         db.commit()
     return db_user
-
-def get_password_hash(password):
-    pwd_context = context.CryptContext(schemes=['bcrypt'], deprecated='auto')
-    return pwd_context.hash(password)
-
-def verify_password(password, hashed_password):
-    pwd_context = context.CryptContext(schemes=['bcrypt'], deprecated='auto')
-    return pwd_context.verify(password, hashed_password)
