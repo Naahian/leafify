@@ -34,12 +34,12 @@ def root():
     return {
         "message": "Welcome to the Leafify Backend",
         "health check":
-            {
-                "/health"          : "basic health check",
-                "/health/detailed" : "detailed health status"
-                ,"/health/live"     : "Liveness check - for Kubernetes/container(if any)",
-                "/health/db-stats" : "Database statistics (Auth Required)"
-            },
+        {
+            "/health"          : "basic health check",
+            "/health/detailed" : "detailed health status"
+            ,"/health/live"     : "Liveness check - for Kubernetes/container(if any)",
+            "/health/db-stats" : "Database statistics (Auth Required)"
+        },
     }
 
 

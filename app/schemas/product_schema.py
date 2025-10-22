@@ -1,6 +1,8 @@
 from pydantic import BaseModel, Field
 from typing import Optional, Dict, List, Union
 
+from app.schemas.plantguide_schema import PlantGuideCreate, PlantGuideResponse
+
 
 # Plant Schemas
 class PlantBase(BaseModel):
@@ -12,7 +14,7 @@ class PlantBase(BaseModel):
 
 
 class PlantCreate(PlantBase):
-    id: str
+    id: Optional[str] = None
 
 
 class PlantUpdate(BaseModel):
@@ -25,11 +27,9 @@ class PlantUpdate(BaseModel):
 
 class PlantResponse(PlantBase):
     id: str
-    
+
     class Config:
         from_attributes = True
-
-
 
 
 # Accessory Schemas
@@ -39,7 +39,7 @@ class AccessoryBase(BaseModel):
 
 
 class AccessoryCreate(AccessoryBase):
-    id: str
+    id: Optional[str] = None  # Make optional
 
 
 class AccessoryUpdate(BaseModel):
@@ -49,7 +49,7 @@ class AccessoryUpdate(BaseModel):
 
 class AccessoryResponse(AccessoryBase):
     id: str
-    
+
     class Config:
         from_attributes = True
 
@@ -64,7 +64,7 @@ class ProductBase(BaseModel):
 
 
 class ProductCreate(ProductBase):
-    id: str
+    id: Optional[str] = None  # Make optional
 
 
 class ProductUpdate(BaseModel):
@@ -77,11 +77,6 @@ class ProductUpdate(BaseModel):
 
 class ProductResponse(ProductBase):
     id: str
-    plant: Optional[PlantWithGuide] = None
-    accessory: Optional[AccessoryResponse] = None
-    
-    class Config:
-        from_attributes = True
 
 
 # For creating complete product with details

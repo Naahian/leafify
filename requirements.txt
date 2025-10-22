@@ -1,11 +1,12 @@
 fastapi
 sqlalchemy
-asyncpg
+uvicorn[standard]
 pydantic
+pymysql
+python-dotenv
 python-jose[cryptography]
 passlib[bcrypt]
 alembic
-uvicorn[standard]
 email_validator
 cryptography
 python-dotenv        

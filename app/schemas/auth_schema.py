@@ -10,7 +10,9 @@ class UserBase(BaseModel):
 
 
 class UserCreate(UserBase):
-    password: str = Field(..., min_length=6, description="Password must be at least 6 characters")
+    password: str = Field(
+        ..., min_length=6, description="Password must be at least 6 characters"
+    )
 
 
 class UserUpdate(BaseModel):
@@ -24,10 +26,10 @@ class UserUpdate(BaseModel):
 
 
 class UserResponse(UserBase):
-    id: str
+    id: int
     recent_order: Optional[str] = None
     my_plants: Optional[Dict] = None
-    
+
     class Config:
         from_attributes = True
 
