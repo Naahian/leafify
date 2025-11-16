@@ -6,7 +6,9 @@ from app.schemas.plantguide_schema import PlantGuideCreate
 from database import get_db
 from app.schemas.product_schema import (
     AccessoryCreate,
+    AccessoryResponse,
     PlantCreate,
+    PlantResponse,
     ProductResponse,
     ProductUpdate,
     CompletePlantProductCreate,
@@ -22,11 +24,45 @@ from app.crud.product_crud import (
     update_product,
     delete_product,
 )
-from app.crud.plant_crud import create_plant, delete_plant
-from app.crud.accesory_crud import create_accessory, delete_accessory
+from app.crud.plant_crud import (
+    create_plant,
+    delete_plant,
+    get_all_plants,
+    get_plant,
+)
+from app.crud.accesory_crud import create_accessory, delete_accessory, get_accessory
 
 
 router = APIRouter(prefix="/products", tags=["Products"])
+
+
+# GET ALL PLANTS
+@router.get("/plants", response_model=List[PlantResponse])
+async def get_plants(
+    skip: int = Query(0, ge=0),
+    limit: int = Query(100, ge=1, le=100),
+    db: Session = Depends(get_db),
+):
+    plants = get_all_plants(db, skip=skip, limit=limit)
+    return plants
+
+
+# GET PLANT BY ID
+@router.get("/plants/{plant_id}", response_model=PlantResponse)
+async def get_plants(
+    plant_id: str,
+    skip: int = Query(0, ge=0),
+    limit: int = Query(100, ge=1, le=100),
+    db: Session = Depends(get_db),
+):
+    plant = get_plant(db, plant_id=plant_id)
+
+    if not plant:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND, detail="plant not found"
+        )
+
+    return plant
 
 
 # CREATE PLANT PRODUCT
@@ -123,6 +159,26 @@ async def create_complete_accessory_product(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
             detail=f"Error creating accessory product: {str(e)}",
         )
+
+
+# GET ACCESSORY BY ID
+@router.get("/accessory/{accessory_id}", response_model=AccessoryResponse)
+async def get_plants(
+    accessory_id: str,
+    skip: int = Query(0, ge=0),
+    limit: int = Query(100, ge=1, le=100),
+    db: Session = Depends(get_db),
+):
+    accessory = get_accessory(db, accessory_id=accessory_id)
+
+    if not accessory:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND, detail="accessory not found"
+        )
+
+    return accessory
+
+
 
 
 # GET ALL PRODUCTS
